@@ -29,3 +29,7 @@ et attendre la confirmation d'inscription de la part d'un administrateur faite m
 
 ### Base de données
 - MongoDB
+
+## Architecture Front
+
+![Schema Architecture Front](./ArchitectureRender.png)

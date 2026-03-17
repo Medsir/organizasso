@@ -11,4 +11,21 @@ Deux forums sont proposés :
 
 ### Inscription
 
+Un utilisateur non connecté aura la possibilité de créer un compte, pour se faire il devra entrer certaines informations 
+et attendre la confirmation d'inscription de la part d'un administrateur faite manuellement.
 
+## Implémentation : La Stack
+
+### Côté client 
+- HTML, CSS
+- JavaScript (ReactJS)
+
+### Côté serveur
+- NodeJS
+- ExpressJS
+
+### Communication Client/Serveur
+- ReactJS (axios)
+
+### Base de données
+- MongoDB

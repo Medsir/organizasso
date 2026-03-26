@@ -1,6 +1,6 @@
 import { useState , useEffect } from 'react'
-import NavigationPanel from './NavigationPanel';
-import Signin from './SignIn';
+import NavigationPanel from './components/NavigationPanel';
+import Signin from './components/SignIn';
 
 function Livre(props){
     var dateAffichage = props.date.getDate()+"/"+props.date.getMonth()+"/"+props.date.getFullYear()

@@ -1,9 +1,9 @@
 import { useState , useEffect } from 'react'
 import NavigationPanel from './NavigationPanel';
 import Signin from './SignIn';
-import Livre from './Livre';
-import TexteCallback from './TexteCallback';
-import Rwx from './Rwx';
+import Livre from '../Livre';
+import TexteCallback from '../TexteCallback';
+import Rwx from '../Rwx';
 
 function MainPage(){
     const dateAuj = new Date(Date.now());

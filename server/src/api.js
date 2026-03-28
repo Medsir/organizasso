@@ -24,6 +24,11 @@ const userCreated = {
         status:201,
         message:"l'utilisateur a bien été créé."
     };
+
+const internalErrorJson = {
+    status:500,
+    message:"Erreur interne, désolé ! Veuillez réessayer ultérieurement."
+}
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 
@@ -69,36 +74,32 @@ function init(db){
 
     //Service Login : 
     router.post('/user/', async (req, res)=>{
-        console.log("Entrée dans le service login ")
         try{
             const {login, password} = req.body;
 
             if(!login || !password) return res.status(400).json(champManquantJson);
-            if(!users.exists(login)) return res.status(401).json({status:401, message:"Utilisateur inconnu"})
+            if(!users.exists(login)) return res.status(401).json({status:401, message:"Utilisateur inconnu"});
 
-            // Todo : Checker la connexion 
             // Todo : Initialiser une session
-            
-
-
-
-
-
-
-
-
-
-
-
+            const userid = users.checkPassword(login, password);
+            if(userid != null){
+                req.session.regenerate(function (erreur){
+                    if(erreur){
+                        return res.status(500).json(internalErrorJson);
+                    }
+                    else{
+                        //On stocke l'id user dans la session
+                        req.session.id = userid;
+                        return res.status(201).json({status:201, message:"Connexion réussie."});
+                    }
+                })
+            }else{
+                return res.status(403).json({status:403, message:"Accès refusé, mot de passe incorrect."});
+            }
         }
         catch(error){
             console.error(error);
-            return res.status(500).json(
-                {
-                    "status":500,
-                    "message":"Erreur interne, désolé ! Veuillez réessayer ultérieurement."
-                }
-            )
+            return res.status(500).json(internalErrorJson);
         }
 
 

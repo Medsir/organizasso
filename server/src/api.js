@@ -94,6 +94,7 @@ function init(db){
                     }
                 })
             }else{
+                req.session.destroy((err) => {});
                 return res.status(403).json({status:403, message:"Accès refusé, mot de passe incorrect."});
             }
         }

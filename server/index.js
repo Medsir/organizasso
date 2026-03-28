@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
     res.setHeader('Content-type', 'text/plain;charset=UTF-8');
     res.send("Message reçu");
 }).post('/', (req, res)=>{
-    console.log("Requête POST reçue :"+req.body.name)
+    console.log("Requête POST reçue :"+req.body.texte)
     res.end();
 });
 

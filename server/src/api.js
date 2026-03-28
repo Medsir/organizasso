@@ -28,6 +28,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 
 function init(db){
+    console.log("Initialisation de l'API...");
     const router = express.Router();
     router.use(express.json());
 
@@ -67,13 +68,16 @@ function init(db){
     });
 
     //Service Login : 
-    router.post('POST', async (req, res)=>{
+    router.post('/user/', async (req, res)=>{
+        console.log("Entrée dans le service login ")
         try{
             const {login, password} = req.body;
 
             if(!login || !password) return res.status(400).json(champManquantJson);
             if(!users.exists(login)) return res.status(401).json({status:401, message:"Utilisateur inconnu"})
 
+            // Todo : Checker la connexion 
+            // Todo : Initialiser une session
             
 
 
@@ -83,7 +87,7 @@ function init(db){
 
 
 
-                
+
 
 
         }
@@ -99,5 +103,7 @@ function init(db){
 
 
     })
-
+    return router;
 }
+
+exports.deflaut = init

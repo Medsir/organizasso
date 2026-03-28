@@ -1,13 +1,12 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
-import MainPage from './MainPage'
+import './css/App.css'
+import Test from './Test';
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <MainPage />
+    <Test />
   )
 }
 

@@ -14,7 +14,7 @@ function NavigationPanel(props){
                 <input type="date" name="date_fin" id="recherche_date"></input>
                 <button type="submit">Rechercher</button>
             </form>
-            {props.connected ? <Logout logout={props.logout}/>: <Login login={props.login}/>}
+            <Logout logout={props.logout}/>
         </nav>
 
         

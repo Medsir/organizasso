@@ -1,7 +1,7 @@
-function Logout(){
+function Logout(props){
 
     return(
-        <button type='button'>Déconnexion</button>
+        <button type='button' onClick={props.logout}>Déconnexion</button>
     )
 }
 

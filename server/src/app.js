@@ -21,12 +21,12 @@ app.get('/', (req, res) => {
     console.log("Requête POST reçue :"+req.body.texte)
     res.end();
 });
-/* 
+ 
 //Initialisation de l'API (nécessitera la bdd plus tard)
 
-const apiRouter = api.deflaut(db);
-app.use("/", apiRouter);
-*/
+const apiTestRouter = api.test();
+app.use("/test/", apiTestRouter);
+
 
 app.listen(port, ()=>{
     console.log("Le serveur est connecté : http://localhost:"+port)

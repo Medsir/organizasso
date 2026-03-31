@@ -108,4 +108,21 @@ function init(db){
     return router;
 }
 
+
+function test(){
+    console.log("Test de l'API...");
+    const router = express.Router();
+    router.use(express.json());
+
+    router.get('/user/', (req, res)=>{
+        user1 = {id:0, userName:"User 0", login:"user0@gmail.com"}
+        user2 = {id:1, userName:"User 1", login:"user1@gmail.com"}
+        user3 = {id:1, userName:"User 2", login:"user2@gmail.com"}
+
+        res.send([user1, user2, user3]);
+
+    })
+    return router
+}
+exports.test = test
 exports.deflaut = init

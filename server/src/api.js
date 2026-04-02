@@ -1,5 +1,6 @@
 const express = require('express');
 const Users = require("./entities/users.js");
+
 const champManquantJson = {
                 status:400,
                 message:"Champ Manquants"
@@ -37,11 +38,14 @@ function init(db){
     const router = express.Router();
     router.use(express.json());
 
+
     //Instance des utilisateurs de la bdd
-    const users = new Users.default(db);
+    const users = new Users.default(db.db("organizasso"));
+router.get('/toto', (req, res) => res.send('youoi'));
 
     //Service createUser (/user/ avec PUT)
-    router.put('/user/', async (req, res) =>{
+    router.put('/user', async (req, res) =>{
+        console.log("test")
         const {userName, login, password, confirmation} = req.body;
 
         //Verification, si l'un des champs est vide : Renvoyer une erreur 400 : bad request 
@@ -114,15 +118,37 @@ function test(){
     const router = express.Router();
     router.use(express.json());
 
+
+
+    const init = async () =>{
+        const uri = "mongodb://localhost";
+        const client = new MongoClient(uri);
+
+        try{
+            console.log("Connexion a la base de données ...")
+            await client.connect();
+            await client.db("test").collection("users")
+        }
+        catch(e){
+            console.error(e);
+        }
+        finally{
+            await client.close();
+        }
+    }
+
+
     router.get('/user/', (req, res)=>{
-        user1 = {id:0, userName:"User 0", login:"user0@gmail.com"}
-        user2 = {id:1, userName:"User 1", login:"user1@gmail.com"}
-        user3 = {id:1, userName:"User 2", login:"user2@gmail.com"}
-
-        res.send([user1, user2, user3]);
-
+        const uri = "mongodb://localhost";
+        const client = new MongoClient(uri);
+        const test= async() =>{
+            await client.connect();
+            const users = new Users.default(client.db("test"));
+            await users.create("Mehdi", "mehdi@mail.fr", "motdepasse2");
+            await client.close()
+            };
+        test();
     })
     return router
 }
-exports.test = test
 exports.deflaut = init

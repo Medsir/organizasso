@@ -4,6 +4,7 @@ const app = express();
 const path = require("path");
 const port = 8000;
 const cors = require('cors');
+const {MongoClient} = require('mongodb');
 const session = require("express-session");
 
 app.use(cors({origin:'*'}))
@@ -24,8 +25,14 @@ app.get('/', (req, res) => {
  
 //Initialisation de l'API (nécessitera la bdd plus tard)
 
-const apiTestRouter = api.test();
-app.use("/test/", apiTestRouter);
+
+
+// Connexion à la base de données 
+const uri = "mongodb://localhost";
+const client = new MongoClient(uri);
+
+const apiRouter = api.deflaut(client);
+app.use("/", apiRouter);
 
 
 app.listen(port, ()=>{

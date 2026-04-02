@@ -1,7 +1,8 @@
 class Users {
     constructor(db){
-        this.db = db.collection("users");
+        this.db = db;
     }
+
 
     async exists(login) {
          //On cherche UN utilisateur dans la BDD qui a pour login la valeur de la variable login
@@ -10,7 +11,7 @@ class Users {
     }
 
     async create(userName, login, password){
-        const res = await this.db.insertOne({userName, login, password});
+        const res = await this.db.collection("users").insertOne({userName, login, password});
         return res.insertedId;
     }
 

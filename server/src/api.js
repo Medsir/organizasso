@@ -1,5 +1,6 @@
 const express = require('express');
 const Users = require("./entities/users.js");
+const Messages = require("./entities/messages.js");
 
 const champManquantJson = {
                 status:400,
@@ -37,15 +38,30 @@ function init(db){
     console.log("Initialisation de l'API...");
     const router = express.Router();
     router.use(express.json());
+    const database = db.db("OrganizAsso");
 
 
     //Instance des utilisateurs de la bdd
-    const users = new Users.default(db.db("organizasso"));
-router.get('/toto', (req, res) => res.send('youoi'));
+    const users = new Users.default(database);
+    const messages = new Messages.default(database)
+  
+    router.use((req, res, next) => {
+        console.log('Nouvelle Requête : \nAPI: methode %s, chemin %s', req.method, req.path);
+        console.log('Corps:', req.body);
+        next();
+    });
 
-    //Service createUser (/user/ avec PUT)
+    //Création d'une fonction de vérification d'authentification
+    //Cette fonction permet de vérifier que la session est bien initalisée afin de pouvoir manipuler la session
+    const isAuthentificated = (req) =>{
+        return req.session && req.session.userId; //Si ces données sont disponibles alors on peut avancer.
+    }
+
+
+
+    //Service SignIn
     router.put('/user', async (req, res) =>{
-        console.log("test")
+
         const {userName, login, password, confirmation} = req.body;
 
         //Verification, si l'un des champs est vide : Renvoyer une erreur 400 : bad request 
@@ -53,7 +69,7 @@ router.get('/toto', (req, res) => res.send('youoi'));
 
         try{
             //Ouverture de la base de données : Collection users
-            if(users.exists(login)) return res.status(409).json(conflictJson); 
+            if(await users.exists(login)) return res.status(409).json(conflictJson); 
             //Ajout : Regex pour le format du login qui doit être une adresse mail.
             if(!emailRegex.test(login)) return res.status(400).json(mailInvalideJson);
             //Ajout : Mot de passe de taille 8 minimum
@@ -76,8 +92,8 @@ router.get('/toto', (req, res) => res.send('youoi'));
         }
     });
 
-    //Service Login : 
-    router.post('/user/', async (req, res)=>{
+    //Service Login
+    router.post('/user', async (req, res)=>{
         try{
             const {login, password} = req.body;
 
@@ -85,7 +101,7 @@ router.get('/toto', (req, res) => res.send('youoi'));
             if(!users.exists(login)) return res.status(401).json({status:401, message:"Utilisateur inconnu"});
 
             // Todo : Initialiser une session
-            const userid = users.checkPassword(login, password);
+            const userid = await users.checkPassword(login, password);
             if(userid != null){
                 req.session.regenerate(function (erreur){
                     if(erreur){
@@ -93,8 +109,8 @@ router.get('/toto', (req, res) => res.send('youoi'));
                     }
                     else{
                         //On stocke l'id user dans la session
-                        req.session.id = userid;
-                        return res.status(201).json({status:201, message:"Connexion réussie."});
+                        req.session.userId = userid;
+                        return res.status(200).json({status:200, message:"Connexion réussie."});
                     }
                 })
             }else{
@@ -106,11 +122,83 @@ router.get('/toto', (req, res) => res.send('youoi'));
             console.error(error);
             return res.status(500).json(internalErrorJson);
         }
-
-
     })
+
+
+    //Service createMessage
+    router.put('/messages', async (req, res) =>{
+        try{
+            //Remarque : on assure l'authentification avec le middleware express-session
+            if(isAuthentificated(req)){
+                
+
+                const authorId = req.session.userId; //ici on récupère l'ID utilisateur depuis la session (stocké côté serveur au moment du login donc secure)
+                const date = new Date(); //Pour éviter que le client choisisse la date d'envoi
+    
+                const {content, forum, idReponse} = req.body;
+                const isMember = await users.isMember(authorId);
+                const canAccess = await users.canAccess(authorId, forum);
+
+                //Vérifier les champs
+                if(!content ||!forum || !idReponse) return res.status(400).json(champManquantJson);
+
+                //Verifier le droit d'envoyer dans le forum
+                if(!isMember) return res.status(403).json({status:403, message:"Vous devez attendre la validation de votre compte."});
+                if(!canAccess) return res.status(403).json({status:403, message:"Vous n'avez pas accès à ce forum"});
+                if(canAccess == -1) return res.status(404).json({status:404, message:"Le forum n'existe pas ou est mal spécifié. (public/private)"})
+
+                // Si tout est bon, on crée le message
+                const id = await messages.createMessage(authorId, content, date, forum, idReponse);
+                return res.status(201).json({status:201, message:"Message créé correctement avec l'id"+id});
+            }
+            return res.status(403).json({status:403, message:"Vous n'êtes pas authentifié."});
+        }
+        catch(error){
+            console.error(error);
+            return res.status(500).json(internalErrorJson);
+        }
+    })
+
+    //service getMessages : l'utilisateur doit avoir accès au forum (obligatoirement spécifié), autres paramètres : idMessage, idUser
+    // Todo
+
+    
+
+
+
+
+
+
     return router;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 function test(){

@@ -159,10 +159,38 @@ function init(db){
         }
     })
 
-    //service getMessages : l'utilisateur doit avoir accès au forum (obligatoirement spécifié), autres paramètres : idMessage, idUser
+    //service getMessages : l'utilisateur doit avoir accès au forum (obligatoirement spécifié), autres paramètres : idReponse, idUser, date
     // Todo
+    router.get("/messages", async (req, res) =>{
+        try{
+            //Verifier l'authentification
+            if(!isAuthentificated(req)) return res.status(403).json({status:403, message:"Vous n'êtes pas authentifié."});
 
+            //Construction de la requête mongo db 
+            var forum;
+            req.query.forum ? forum = req.query.forum : forum = "public";
+            const query = {forum:forum}
+            if(req.query.idReponse) query.idReponse = idReponse;
+            if(req.query.idUser) query.idUser;
+            if(req.query.date) query.date = new date(date);
+
+            const userId = req.session.userId;
+            const canAccess = await users.canAccess(userId, forum);
+             // Par défaut on cherchera dans le publique
+            if(!canAccess) return res.status(403).json({status:403, message:"Vous n'avez pas accès à ce forum"});
+
+            
+            console.log(query)
+            const r = await messages.getMessages(query, {});
+            return res.status(200).json(r);
+        }
+        catch(error){
+            console.error(error);
+            return res.status(500).json(internalErrorJson);
+        }
+    });
     
+    // service getMessage (un seul)
 
 
 

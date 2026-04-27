@@ -15,8 +15,9 @@ class Messages {
         return null;
     }
 
-    async deleteMessage(authorId){
-
+    async getMessages(query, options){
+        const messages = await this.db.collection("messages").find(query, options);
+        return messages.toArray();
     }
 }
 

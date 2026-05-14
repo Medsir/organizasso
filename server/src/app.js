@@ -2,12 +2,12 @@ const api = require('./api.js');
 const express = require("express");
 const app = express();
 const path = require("path");
-const port = 8000;
+const port = 3000;
 const cors = require('cors');
 const {MongoClient} = require('mongodb');
 const session = require("express-session");
 
-app.use(cors({origin:'*'}))
+app.use(cors({origin:'http://localhost:5173', credentials:true}))
 app.use(express.json())
 app.use(session({
     secret:"technoweb rocks", //?
@@ -31,8 +31,9 @@ app.get('/', (req, res) => {
 const uri = "mongodb://localhost";
 const client = new MongoClient(uri);
 
-const apiRouter = api.deflaut(client);
+const apiRouter = api.default(client);
 app.use("/", apiRouter);
+
 
 
 app.listen(port, ()=>{

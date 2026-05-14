@@ -34,7 +34,7 @@ class Users {
     }
 
     async create(userName, login, password){
-        const res = await this.db.collection("users").insertOne({userName, login, password, status:"en attente"});
+        const res = await this.db.collection("users").insertOne({userName, login, password, status:"en attente", dateCreation:new Date()});
         console.log("utilisateur créé avec l'id "+res.insertedId)
         return res.insertedId;
     }
@@ -46,6 +46,36 @@ class Users {
         }
         return null;
     }
+
+    async getProfile(userId){
+        const user = await this.db.collection("users").findOne({_id:new ObjectId(userId)});
+        //const profil = await this.db.collection("profil").findOne({_id:userId});
+        const publicMessages = await this.db.collection("messages").find({authorId:userId, forum:"public"}, {limit: 50});
+        const privateMessages = await this.db.collection("messages").find({authorId:userId, forum:"private"}, {limit: 50}); //Limité aux 50 derniers messages
+        if(!user) return null;
+        //Infos utilisateur : userName, login, status, date creation de compte
+        //Infos profil collection profil : Bio, avatar url
+        //Listes à renvoyer : Messages publics, Messages Privés
+        const pbm = await publicMessages.toArray();
+        const pvm = await privateMessages.toArray()
+        return {
+            userName:user.userName,
+            email:user.login,
+            status:user.status,
+            dateCreation:user.dateCreation,
+            //bio:profil.biographie,
+            //avatarUrl:profil.avatarUrl,
+            publicMessages:pbm,
+            privateMessages:pvm
+        }
+        
+
+
+    }
+
 }
+
+
+
 
 exports.default = Users;

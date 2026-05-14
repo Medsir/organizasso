@@ -1,11 +1,18 @@
 function Signin(props){
 
     if(props.page == 'signin_page'){
+
+        const sendRequest = (event) =>{
+
+        }
+
+
+
         return(
             <>
             <form id="formulaire_login">
-            <label htmlFor="Prenom_input" className="Nom">Prenom</label><label htmlFor="Nom_input" className="Nom">Nom</label>
-            <input type="text" id="Prenom_input"></input><input type="text" id="Nom_input"></input>
+            <label htmlFor="Prenom_input" className="Nom">Votre Pseudonyme</label>
+            <input type="text" id="Prenom_input"></input>
             <label htmlFor="login_input">Login</label><input type="text" id="login_input"></input>
             <label htmlFor="password_input">Mot de passe</label><input type="password" id="password_input"></input>
             <label htmlFor="password_input">Retapez</label><input type="password" id="password_input"></input>

@@ -2,17 +2,13 @@ import Message from './Message.jsx'
 
 
 function MessageList(props){
-    const listeMsg = props.liste;
-
+    var listeMsg = props.liste;
 
     return(
         <>
-        <li>
-        {listeMsg.map((m)=>{
-            return <Message author={m.author} content={m.content}/>
-        })
-        }
-        </li>
+        <div className="message_list">
+            {listeMsg.map((m)=>{return <Message author={m.userName} content={m.content} date={m.date} />})}
+        </div>
         </>
     )
 

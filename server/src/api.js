@@ -98,7 +98,7 @@ function init(db){
             const {login, password} = req.body;
 
             if(!login || !password) return res.status(400).json(champManquantJson);
-            if(!users.exists(login)) return res.status(401).json({status:401, message:"Utilisateur inconnu"});
+            if(!users.exists(login)) return res.status(403).json({status:403, message:"Mot de passe/identifiant incorrect."});
 
             // Todo : Initialiser une session
             const userid = await users.checkPassword(login, password);
@@ -115,7 +115,7 @@ function init(db){
                 })
             }else{
                 req.session.destroy((err) => {});
-                return res.status(403).json({status:403, message:"Accès refusé, mot de passe incorrect."});
+                return res.status(403).json({status:403, message:"Mot de passe/identifiant incorrect."});
             }
         }
         catch(error){
@@ -124,13 +124,18 @@ function init(db){
         }
     })
 
+    //Service profil (renvoie les informations de l'utilisateur connecté grâce a la session)
+    router.get('/profile', async(req, res) =>{
+        if(!isAuthentificated(req)) return res.status(403).json({status:403, message:"Vous n'êtes pas authentifié."});
+        const response = await users.getProfile(req.session.userId);
+        return res.status(200).json(response);
+    });
 
     //Service createMessage
     router.put('/messages', async (req, res) =>{
         try{
             //Remarque : on assure l'authentification avec le middleware express-session
             if(isAuthentificated(req)){
-                
 
                 const authorId = req.session.userId; //ici on récupère l'ID utilisateur depuis la session (stocké côté serveur au moment du login donc secure)
                 const date = new Date(); //Pour éviter que le client choisisse la date d'envoi
@@ -149,8 +154,12 @@ function init(db){
 
                 // Si tout est bon, on crée le message
                 const id = await messages.createMessage(authorId, content, date, forum, idReponse);
+                if(id == null){
+                    return res.status(403).json({status:403, message:"Vous n'avez pas accès à ce forum"});
+                }
                 return res.status(201).json({status:201, message:"Message créé correctement avec l'id"+id});
             }
+            
             return res.status(403).json({status:403, message:"Vous n'êtes pas authentifié."});
         }
         catch(error){
@@ -165,13 +174,18 @@ function init(db){
         try{
             //Verifier l'authentification
             if(!isAuthentificated(req)) return res.status(403).json({status:403, message:"Vous n'êtes pas authentifié."});
-
             //Construction de la requête mongo db 
             var forum;
             req.query.forum ? forum = req.query.forum : forum = "public";
             const query = {forum:forum}
-            if(req.query.idReponse) query.idReponse = idReponse;
-            if(req.query.idUser) query.idUser;
+            if(req.query.content){
+                query.content = {
+                $regex: req.query.content, //recherche du contenu dans la bdd
+                $options: 'i'
+            };
+        }
+            if(req.query.idReponse) query.idReponse = req.query.idReponse;
+            if(req.query.authorId) query.authorId = req.query.authorId;
             if(req.query.date) query.date = new date(date);
 
             const userId = req.session.userId;
@@ -179,8 +193,6 @@ function init(db){
              // Par défaut on cherchera dans le publique
             if(!canAccess) return res.status(403).json({status:403, message:"Vous n'avez pas accès à ce forum"});
 
-            
-            console.log(query)
             const r = await messages.getMessages(query, {});
             return res.status(200).json(r);
         }
@@ -189,11 +201,37 @@ function init(db){
             return res.status(500).json(internalErrorJson);
         }
     });
+   
+
+    router.get("/connected", async (req, res)=>{
+        //Permet de savoir si l'utlisateur a une session ouverte ou non
+        try{
+            if(isAuthentificated(req)){
+                return res.status(200).json({status:200, message:"Vous êtes bien connecté."})
+            }
+            else{
+                return res.status(403).json({status:403, message:"Vous n'êtes pas authentifié."})
+            }
+        }catch(error){
+            console.error(error);
+        }
+
+    })
     
-    // service getMessage (un seul)
+    router.post("/disconnect", async (req, res)=>{
+        //Permet de deconnecter l'utilisateur
+        try{
+            if(isAuthentificated(req)){
+                req.session.destroy(()=>{console.log("session detruite")});
+                res.clearCookie('connect.sid');
+            }
+            return res.status(200).json({status:200})
+        }catch(error){
+            console.error(error);
+            return res.status(500).json({status:500, message:"Erreur lors de la fermture de la session."})
+        }
 
-
-
+    })
 
 
 
@@ -201,70 +239,4 @@ function init(db){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function test(){
-    console.log("Test de l'API...");
-    const router = express.Router();
-    router.use(express.json());
-
-
-
-    const init = async () =>{
-        const uri = "mongodb://localhost";
-        const client = new MongoClient(uri);
-
-        try{
-            console.log("Connexion a la base de données ...")
-            await client.connect();
-            await client.db("test").collection("users")
-        }
-        catch(e){
-            console.error(e);
-        }
-        finally{
-            await client.close();
-        }
-    }
-
-
-    router.get('/user/', (req, res)=>{
-        const uri = "mongodb://localhost";
-        const client = new MongoClient(uri);
-        const test= async() =>{
-            await client.connect();
-            const users = new Users.default(client.db("test"));
-            await users.create("Mehdi", "mehdi@mail.fr", "motdepasse2");
-            await client.close()
-            };
-        test();
-    })
-    return router
-}
-exports.deflaut = init
+exports.default = init

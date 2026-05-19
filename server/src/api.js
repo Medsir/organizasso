@@ -232,8 +232,43 @@ function init(db){
         }
 
     })
+    router.get('/admin/attente', async (req, res) => {
+        try {
+            if (!isAuthentificated(req)) return res.status(403).json({ status: 403, message: "Vous n'êtes pas authentifié." });
+            
+            const userId = req.session.userId;
+            const adminCheck = await users.isAdmin(userId);
+            if (!adminCheck) return res.status(403).json({ status: 403, message: "Accès refusé. Réservé aux administrateurs." });
 
+            const listeAttente = await users.getUsersAttente();
+            return res.status(200).json(listeAttente);
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json(internalErrorJson);
+        }
+    });
 
+    router.patch('/admin/valider/:id', async (req, res) => {
+        try {
+            if (!isAuthentificated(req)) return res.status(403).json({ status: 403, message: "Vous n'êtes pas authentifié." });
+            
+            const userId = req.session.userId;
+            const adminCheck = await users.isAdmin(userId);
+            if (!adminCheck) return res.status(403).json({ status: 403, message: "Accès refusé. Réservé aux administrateurs." });
+
+            const targetUserId = req.params.id;
+            const success = await users.validerUser(targetUserId);
+
+            if (success) {
+                return res.status(200).json({ status: 200, message: "L'utilisateur a bien été validé en tant que membre !" });
+            } else {
+                return res.status(404).json({ status: 404, message: "Utilisateur non trouvé ou déjà validé." });
+            }
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json(internalErrorJson);
+        }
+    });
 
     return router;
 }

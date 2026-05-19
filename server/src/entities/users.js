@@ -73,6 +73,17 @@ class Users {
 
     }
 
+    async getUsersAttente() {
+        return await this.db.collection("users").find({ status: "en attente" }).toArray();
+    }
+
+    async validerUser(userid) {
+        const res = await this.db.collection("users").updateOne(
+            { _id: new ObjectId(userid) },
+            { $set: { status: "Membre" } }
+        );
+        return res.modifiedCount === 1;
+    }
 }
 
 

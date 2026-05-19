@@ -27,8 +27,8 @@ function Login(props){
         event.preventDefault();
 
         if(!login || !mdp){
-            login = document.getElementById("login_input").value;
-            mdp = document.getElementById("password_input").value;
+            setErrorMessage("Veuillez spécifier tous les champs.");
+            return;
         }
 
 
@@ -52,13 +52,15 @@ function Login(props){
 
     return(
         <>
-            <form id='formulaire_login'>
-            <h1>Connexion</h1>
-            <label htmlFor="login_input">Login</label><input type="text" id="login_input" onChange={getLogin}></input>
-            <label htmlFor="password_input">Mot de passe</label><input type="password" id="password_input" onChange={getPassword}></input>
-            <button type="submit" className="form_button" onClick={checkLogin}>Connexion</button>
-            <button type="reset" className="form_button" onClick={resetChamps}>Annuler</button>
-            <button onClick={props.setSignIn}>Je n'ai pas de compte</button>
+            <form id='formulaire_login' onSubmit={checkLogin}>
+                <h1>Connexion</h1>
+                <label htmlFor="login_input">Login</label>
+                <input type="text" id="login_input" onChange={getLogin} value={login}></input>
+                <label htmlFor="password_input">Mot de passe</label>
+                <input type="password" id="password_input" onChange={getPassword} value={mdp}></input>
+                <button type="submit" className="form_button">Connexion</button>
+                <button type="reset" className="form_button" onClick={resetChamps}>Annuler</button>
+                <button type="button" onClick={props.setSignIn}>Je n'ai pas de compte</button>
             </form>
             <br></br>
             <p>{errorMessage}</p>

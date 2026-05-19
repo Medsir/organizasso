@@ -17,16 +17,19 @@ function ForumComponent(props){
     const [charge, setCharge] = useState(false); 
     const [erreur, setErreur] = useState('');
     const [profile, setProfile] = useState({});
-    if(!charge){
-        axios.get("http://localhost:3000/messages", {withCredentials:true}).then(
-                    (res) => {
-                        console.log("reponse OK")
-                        setCharge(true);
-                        setMessages(res.data);
-                        
-                    }
-                ).catch((error)=>{setErreur(error.response.data.message)})  
-    }
+    useEffect(() => {
+        if(!charge){
+            axios.get("http://localhost:3000/messages", {withCredentials:true}).then(
+                (res) => {
+                    console.log("reponse OK")
+                    setCharge(true);
+                    setMessages(res.data);
+                }
+            ).catch((error) => {
+                setErreur(error.response.data.message)
+            })  
+        }
+    }, [charge]);
 
     const changeForumHandler = async () =>{
         try{
@@ -41,7 +44,7 @@ function ForumComponent(props){
         }
         catch(error){
             //Gestion de l'affichage des erreurs selon le retour de la requête
-            if(error.status == 403){
+            if(error.response && error.response.status == 403){
                 setErreur(error.response.data.message)
             }
         }
@@ -60,7 +63,7 @@ function ForumComponent(props){
         }
         catch(error){
             //Gestion de l'affichage des erreurs selon le retour de la requête
-            if(error.status == 403){
+            if(error.response && error.response.status == 403){
                 setErreur(error.response.data.message)
             }
         } 

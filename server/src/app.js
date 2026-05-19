@@ -31,11 +31,20 @@ app.get('/', (req, res) => {
 const uri = "mongodb://localhost";
 const client = new MongoClient(uri);
 
-const apiRouter = api.default(client);
-app.use("/", apiRouter);
+async function startServer() {
+    try {
+        await client.connect();
+        console.log("Connexion à MongoDB réussie !");
 
+        const apiRouter = api.default(client);
+        app.use("/", apiRouter);
 
+        app.listen(port, () => {
+            console.log("Le serveur est connecté : http://localhost:" + port);
+        });
+    } catch (error) {
+        console.error("Erreur critique de connexion à la base de données :", error);
+    }
+}
 
-app.listen(port, ()=>{
-    console.log("Le serveur est connecté : http://localhost:"+port)
-})
+startServer();

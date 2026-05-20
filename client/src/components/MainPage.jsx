@@ -6,6 +6,7 @@ import Signin from './SignIn';
 import axios from 'axios';
 import ForumComponent from './ForumComponent';
 import AdminDashboard from './AdminDashboard';
+import Profile from './Profile';
 
 function MainPage(){
 
@@ -80,10 +81,14 @@ function MainPage(){
         setPage("message_page");
     }
 
+    const setProfil = ()=>{
+        setPage("Profil")
+    }
+
     if(page == "message_page"){
         return(
                 <>
-                <NavigationPanel connected={connected} logout={setLogout} setRecherche={setRecherche} setAdmin={setAdmin} isAdmin={profile.status == "Admin"}/>
+                <NavigationPanel connected={connected} logout={setLogout} setRecherche={setRecherche} setAdmin={setAdmin} isAdmin={profile.status == "Admin"} setProfil={setProfil}/>
                 <ForumComponent resultatRecherche={msgRecherche}/>
                 </>
             )
@@ -107,6 +112,17 @@ function MainPage(){
 
         )
     }
+    if(page=="Profil"){
+        return(
+            <>
+            <button id="bouton_retour_admin" onClick={setMainPage}>Retour à la page Principale</button>
+
+            <Profile/>
+            </>
+        )
+    }
+
+
     else{
         return (
             <>

@@ -4,6 +4,9 @@ import Message from './Message.jsx'
 function MessageList(props){
     var listeMsg = props.liste;
 
+
+    if(!listeMsg) return(<></>)
+
     return(
         <>
         <div className="message_list">

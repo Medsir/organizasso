@@ -44,7 +44,8 @@ function NavigationPanel(props){
                 <input type="date" name="date_fin" id="recherche_date"></input>
                 <button onClick={search}>Rechercher</button>
             </form>
-            {props.isAdmin ? <button onClick={props.setAdmin}>Admin Dashboard</button> : null}
+            <button onClick={props.setProfil}>Profil 👤</button>
+            {props.isAdmin ? <button onClick={props.setAdmin}>Admin🛡️</button> : null}
             <Logout logout={props.logout}/>
         </nav>
 

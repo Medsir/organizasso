@@ -9,7 +9,7 @@ function ForumComponent(props){
     
     //On doit attendre le chargement de la requête get avec axios pour pouvoir l'afficher
     const [messages, setMessages] = useState([]);
-    
+    const defaultAvatarUrl = "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg";
 
     
 
@@ -35,7 +35,7 @@ function ForumComponent(props){
         try{
             setErreur("Chargement...")
             const forum = document.getElementById('forum_selector').value
-            await axios.get("http://localhost:3000/messages?forum="+forum, {withCredentials:true}).then(
+            await axios.get("http://localhost:3000/messages?forum="+forum+"&idReponse=null", {withCredentials:true}).then(
                     (res) => {
                         setMessages(res.data);
                         setErreur('')
@@ -118,7 +118,7 @@ function ForumComponent(props){
             <aside>
 
                 <div className="infos_profil">
-                    <img id="infos_profil_image" src="https://media.tenor.com/JhTKOCxtk4UAAAAe/ryan-gosling.png" alt="photo de profil" />
+                    <img id="infos_profil_image" src={profile.avatar == "default" ? defaultAvatarUrl : profile.avatar} alt="photo de profil" />
                     {profile == {} ? <p>chargement</p> : <p id="infos_username">{profile.userName}</p>}
                     <p id="role">Vous avez le rôle</p>
                     {profile == {} ? <p></p> : <p id={"role_"+profile.status}>{profile.status}</p>}

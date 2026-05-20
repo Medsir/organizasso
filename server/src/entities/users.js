@@ -19,7 +19,6 @@ class Users {
 
     async isAdmin(userid){
         const user = await this.db.collection("users").findOne({_id:new ObjectId(userid)});
-        console.log(user.status)
         return user.status === "Admin";
     }
 
@@ -34,7 +33,7 @@ class Users {
     }
 
     async create(userName, login, password){
-        const res = await this.db.collection("users").insertOne({userName, login, password, status:"en attente", dateCreation:new Date()});
+        const res = await this.db.collection("users").insertOne({userName, login, password, status:"en attente", dateCreation:new Date(), avatar:"default"});
         console.log("utilisateur créé avec l'id "+res.insertedId)
         return res.insertedId;
     }
@@ -64,7 +63,7 @@ class Users {
             status:user.status,
             dateCreation:user.dateCreation,
             //bio:profil.biographie,
-            //avatarUrl:profil.avatarUrl,
+            avatar:user.avatar,
             publicMessages:pbm,
             privateMessages:pvm
         }
@@ -84,6 +83,27 @@ class Users {
         );
         return res.modifiedCount === 1;
     }
+
+
+    async promote(userid) {
+        const res = await this.db.collection("users").updateOne(
+            { _id: new ObjectId(userid) },
+            { $set: { status: "Admin" } }
+        );
+        return res.modifiedCount === 1;
+    }
+
+
+    async deleteUser(userid){
+        if(await this.isAdmin(userid)) return false; // On ne va pas laisser les admin bannir les admin
+        const res = await this.db.collection("users").deleteOne({_id:new ObjectId(userid)})
+        return res.deletedCount > 0;
+    }
+
+    async getUserList(){
+        return await this.db.collection("users").find().toArray();
+    }
+
 }
 
 

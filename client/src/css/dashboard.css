@@ -81,6 +81,33 @@
     background-color: #2b2b36;
 }
 
+
+
+.btn_validate_user {
+    background: linear-gradient(135deg, #10b981, #059669); /* Dégradé vert émeraude vibrant */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25); /* Effet de lueur verte */
+    transition: all 0.3s ease;
+    margin-left: 15px;
+}
+
+.btn_validate_user:hover {
+    background: linear-gradient(135deg, #059669, #047857);
+    box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
+    transform: translateY(-1px);
+}
+
+.btn_validate_user:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(16, 185, 129, 0.3);
+}
+
 .btn_validate_user {
     background: linear-gradient(135deg, #10b981, #059669); /* Dégradé vert émeraude vibrant */
     color: white;
@@ -114,4 +141,99 @@
     border-radius: 10px;
     font-weight: 500;
     margin-bottom: 25px;
+}
+
+
+
+
+
+/*Bouton bannissement*/
+.ban_user_btn {
+    background: linear-gradient(135deg, #b91010, #960505); /* Dégradé vert émeraude vibrant */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 12px rgba(185, 16, 16, 0.25); /* Effet de lueur verte */
+    transition: all 0.3s ease;
+    margin-left: 15px;
+}
+
+.ban_user_btn:hover {
+    background: linear-gradient(135deg, #960505, #780404);
+    box-shadow: 0 6px 18px rgba(185, 16, 16, 0.4);
+    transform: translateY(-1px);
+}
+
+.ban_user_btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(185, 16, 16, 0.3);
+}
+
+.ban_user_btn {
+    background: linear-gradient(135deg, #b91010, #960505); /* Dégradé vert émeraude vibrant */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 12px rgba(185, 16, 16, 0.25); /* Effet de lueur verte */
+    transition: all 0.3s ease;
+    margin-left: 15px;
+}
+
+.ban_user_btn:hover {
+    background: linear-gradient(135deg, #960505, #780404);
+    box-shadow: 0 6px 18px rgba(230, 60, 60, 0.4);
+    transform: translateY(-1px);
+}
+
+.ban_user_btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(185, 16, 16, 0.3);
+}
+
+
+
+
+
+
+/* BOUTON DEJA ADMIN*/
+
+.deja_admin {
+    background: linear-gradient(135deg, #0d553d, #0b3b2c); /* Dégradé vert émeraude vibrant */
+    color: rgb(108, 145, 126);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    margin-left: 15px;
+}
+
+
+#bouton_retour_admin{
+    margin-top: 10px;
+    background: linear-gradient(135deg, #5e11c2, #271c8b); /* Dégradé vert émeraude vibrant */
+    color: rgb(255, 255, 255);
+    box-shadow: 0 4px 12px rgba(16, 185, 81, 0.25);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    margin-left: 15px;
+}
+#bouton_retour_admin:hover {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(30, 185, 16, 0.3);
 }

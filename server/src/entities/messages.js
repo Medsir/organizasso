@@ -12,7 +12,8 @@ class Messages {
                 return null; //Si l'utilisateur n'a pas accès au forum privé il ne peut pas poster de message
             }
             const userName = user.userName;
-            const res = await this.db.collection("messages").insertOne({authorId, userName, content, date, forum, idReponse});
+            const avatar = user.avatar;
+            const res = await this.db.collection("messages").insertOne({authorId, userName, content, date, forum, idReponse, avatar});
             return res.insertedId;
         }
         return null;

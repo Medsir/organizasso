@@ -259,9 +259,9 @@ function init(db){
             const targetUserId = req.params.id;
             const success = await users.validerUser(targetUserId);
 
-            if (success) {
+            if(success){
                 return res.status(200).json({ status: 200, message: "L'utilisateur a bien été validé en tant que membre !" });
-            } else {
+            }else{
                 return res.status(404).json({ status: 404, message: "Utilisateur non trouvé ou déjà validé." });
             }
         } catch (error) {
@@ -270,7 +270,77 @@ function init(db){
         }
     });
 
+    router.delete('/user/:id', async (req, res) => {
+        
+        try {
+            if (!isAuthentificated(req)) return res.status(403).json({ status: 403, message: "Vous n'êtes pas authentifié." });
+                
+            const userId = req.session.userId;
+            const adminCheck = await users.isAdmin(userId);
+            if (!adminCheck) return res.status(403).json({ status: 403, message: "Accès refusé. Réservé aux administrateurs." });
+            
+            const targetUserId = req.params.id;
+            const success = await users.deleteUser(targetUserId);
+
+            if(success){
+                return res.status(200).json({ status: 200, message: "L'utilisateur a bien été supprimé." });
+            }else{
+                return res.status(404).json({ status: 404, message: "Echec de la suppression de l'utilisateur." });
+        }
+    } catch (error) {
+            console.error(error);
+            return res.status(500).json(internalErrorJson);
+        }
+    });
+
+
+    router.get("/admin/userList", async(req, res)=>{
+        try{
+            if (!isAuthentificated(req)) return res.status(403).json({ status: 403, message: "Vous n'êtes pas authentifié." });
+            
+            const userId = req.session.userId;
+            const adminCheck = await users.isAdmin(userId);
+            if (!adminCheck) return res.status(403).json({ status: 403, message: "Accès refusé. Réservé aux administrateurs." });
+
+            const liste = await users.getUserList();
+            return res.status(200).json(liste);
+
+        }catch (error) {
+            console.error(error);
+            return res.status(500).json(internalErrorJson);
+        }
+
+    })
+
+
+    router.patch('/admin/promote/:id', async (req, res) => {
+        try {
+            if (!isAuthentificated(req)) return res.status(403).json({ status: 403, message: "Vous n'êtes pas authentifié." });
+            
+            const userId = req.session.userId;
+            const adminCheck = await users.isAdmin(userId);
+            if (!adminCheck) return res.status(403).json({ status: 403, message: "Accès refusé. Réservé aux administrateurs." });
+
+            const targetUserId = req.params.id;
+            const success = await users.promote(targetUserId);
+
+            if(success){
+                return res.status(200).json({ status: 200, message: "L'utilisateur a bien été promu(e) !" });
+            }else{
+                return res.status(404).json({ status: 404, message: "Utilisateur non trouvé ou déjà validé." });
+            }
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json(internalErrorJson);
+        }
+    });
+
+
+
     return router;
+
+
+
 }
 
 

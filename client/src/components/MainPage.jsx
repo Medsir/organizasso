@@ -101,7 +101,7 @@ function MainPage(){
     if(page=="AdminDashboard"){
         return(
             <>
-            <button onClick={setMainPage}>Retour à la page Principale</button>
+            <button className="ban_user_btn" id="bouton_retour_admin" onClick={setMainPage}>Retour à la page Principale</button>
             {profile.status == "Admin" && < AdminDashboard setMainPage={setMainPage}/>}
             </>
 

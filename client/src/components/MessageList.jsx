@@ -7,7 +7,7 @@ function MessageList(props){
     return(
         <>
         <div className="message_list">
-            {listeMsg.map((m)=>{return <Message author={m.userName} content={m.content} date={m.date} />})}
+            {listeMsg.map((m)=>{return <Message author={m.userName} content={m.content} date={m.date} avatar={m.avatar}/>})}
         </div>
         </>
     )

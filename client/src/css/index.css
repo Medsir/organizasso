@@ -272,6 +272,11 @@ aside{
   color: rgb(201, 7, 1);
 }
 
+#role_Membre{
+  margin: 0;
+  color: rgb(1, 201, 78);
+}
+
 #message_input{
   color: #fff;
  font-size: 0.9rem;
@@ -303,3 +308,6 @@ aside{
  width: 100%;
 }
 
+#bouton_retour_admin{
+    padding-top: 10px;
+}

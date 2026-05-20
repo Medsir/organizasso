@@ -72,13 +72,19 @@ function MainPage(){
         setPage("SignIn")
     }
 
+    const setAdmin = ()=>{
+        setPage("AdminDashboard");
+    }
+
+    const setMainPage = ()=>{
+        setPage("message_page");
+    }
 
     if(page == "message_page"){
         return(
                 <>
-                <NavigationPanel connected={connected} logout={setLogout} setRecherche={setRecherche}/>
+                <NavigationPanel connected={connected} logout={setLogout} setRecherche={setRecherche} setAdmin={setAdmin} isAdmin={profile.status == "Admin"}/>
                 <ForumComponent resultatRecherche={msgRecherche}/>
-                {profile.status == "Admin" && < AdminDashboard />}
                 </>
             )
     }
@@ -91,6 +97,15 @@ function MainPage(){
             </>
         )
 
+    }
+    if(page=="AdminDashboard"){
+        return(
+            <>
+            <button onClick={setMainPage}>Retour à la page Principale</button>
+            {profile.status == "Admin" && < AdminDashboard setMainPage={setMainPage}/>}
+            </>
+
+        )
     }
     else{
         return (

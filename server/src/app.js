@@ -28,7 +28,7 @@ app.get('/', (req, res) => {
 
 
 // Connexion à la base de données 
-const uri = "mongodb://localhost";
+const uri = "mongodb+srv://organizasso_client:7c34no7ZC5aOyv3z@organizasso.dqbicpn.mongodb.net/?appName=OrganizAsso";
 const client = new MongoClient(uri);
 
 async function startServer() {

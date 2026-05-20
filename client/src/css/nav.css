@@ -43,7 +43,6 @@
 #barre_recherche_input {
     flex-grow: 1;
 }
-
 #navigation_panel button {
     background-color: #333;
     border: 1px solid #555;
@@ -55,13 +54,13 @@
     transition: background-color 0.2s ease;
     white-space: nowrap; 
 }
-
 #navigation_panel button:hover {
     background-color: #444;
 }
 
 #barre_recherche button {
     background-color: #3b82f6;
+
     border: 1px solid #2563eb;
 }
 

@@ -56,21 +56,21 @@ function Profile(props){
                         />
                         <h2 className="profile_username">{profile.userName}</h2>
                         
-                        <span className={`profile_role ${profile.status ? profile.status.toLowerCase() : ''}`}>
+                        <span className={"profile_role" +profile.status ? profile.status : ''}>
                             {profile.status}
                         </span>
                     </div>
                 
                     <div className="profile_body">
                         <h3 className="profile_section_title">
-                            Messages publiés
+                            Messages publics
                         </h3>
                         
                         {publicMessages.length > 0 ? (
                             <MessageList liste={publicMessages}/>
                         ) : (
                             <p className="profile_no_messages">
-                                Cet utilisateur n'a publié aucun message pour le moment.
+                                Vous n'avez publié aucun message dans le fil public.
                             </p>
                         )}
                     </div>

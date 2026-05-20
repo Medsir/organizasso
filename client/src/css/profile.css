@@ -19,12 +19,18 @@
     background-color: #444;
 }
 
+
+
+
+
+
+
+
 .profile_card {
     background-color: #242424;
     border: 1px solid #444;
     border-radius: 8px;
 }
-
 .profile_header {
     display: flex;
     flex-direction: column;
@@ -33,7 +39,6 @@
     background-color: #2a2a2a;
     border-bottom: 1px solid #444;
 }
-
 .profile_avatar_large {
     width: 100px;
     height: 100px;

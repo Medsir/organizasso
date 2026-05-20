@@ -1,0 +1,91 @@
+.profile_container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    color: #e2e8f0;
+}
+
+.btn_back {
+    background-color: #333;
+    border: 1px solid #555;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.btn_back:hover {
+    background-color: #444;
+}
+
+.profile_card {
+    background-color: #242424;
+    border: 1px solid #444;
+    border-radius: 8px;
+}
+
+.profile_header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 20px;
+    background-color: #2a2a2a;
+    border-bottom: 1px solid #444;
+}
+
+.profile_avatar_large {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #666;
+    margin-bottom: 15px;
+}
+
+.profile_username {
+    margin: 0;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #fff;
+}
+
+.profile_role {
+    margin-top: 10px;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.profile_role.admin {
+    background-color: #b91c1c;
+    color: white;
+}
+
+.profile_role.membre {
+    background-color: #2563eb;
+    color: white;
+}
+
+.profile_body {
+    padding: 20px;
+}
+
+.profile_section_title {
+    font-size: 1.2em;
+    color: #ccc;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 5px;
+}
+
+.profile_loading {
+    color: #aaa;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.profile_no_messages {
+    color: #aaa;
+    font-style: italic;
+}

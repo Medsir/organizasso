@@ -1,6 +1,7 @@
 import axios from "axios"
 import Login from "./Login"
 import Logout from "./Logout"
+import '../css/nav.css';
 
 function NavigationPanel(props){
     
@@ -8,16 +9,20 @@ function NavigationPanel(props){
     const search = async(event) => {
         event.preventDefault();
 
-        var recherche = "?";
-        const forum = "forum="+document.getElementById("forum_selector").value; //quel forum est selectionné ?
-        const content ="content="+document.getElementById("barre_recherche_input").value; //valeur du champ de la recherche (à developper pour l'instant username pour tester)
-        if (forum && forum != ''){
-            recherche = recherche + forum;
-            recherche = recherche + '&'+ content;
-        }
-        else{
-            recherche = recherche + content;
-        }
+        const forumValue = document.getElementById("forum_selector") ? document.getElementById("forum_selector").value : ""; 
+        const contentValue = document.getElementById("barre_recherche_input").value;
+        const dateDebut = document.getElementById("recherche_date_debut").value; 
+        const dateFin = document.getElementById("recherche_date_fin").value;
+        
+        const params = new URLSearchParams();
+        
+        if (forumValue) params.append("forum", forumValue);
+        if (contentValue) params.append("content", contentValue);
+        if (dateDebut) params.append("dateDebut", dateDebut);
+        if (dateFin) params.append("dateFin", dateFin);
+
+        var recherche = "?" + params.toString();
+
 
 
         axios.get("http://localhost:3000/messages"+recherche, {withCredentials:true}).then(
@@ -39,9 +44,8 @@ function NavigationPanel(props){
             <img src="../../../public/favicon.svg" alt="logo.png" id="logo"></img>
             <form id="barre_recherche">
                 <input type="text" name="search" id="barre_recherche_input" placeholder="Rechercher du texte"></input>
-                <input type="date" name="date_debut" id="recherche_date"></input>
-                à
-                <input type="date" name="date_fin" id="recherche_date"></input>
+                <input type="date" name="date_debut" id="recherche_date_debut"></input>
+                <input type="date" name="date_fin" id="recherche_date_fin"></input>
                 <button onClick={search}>Rechercher</button>
             </form>
             <button onClick={props.setProfil}>Profil 👤</button>

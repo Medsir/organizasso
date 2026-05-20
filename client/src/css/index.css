@@ -5,12 +5,27 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #1a1a1a;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  min-width: 320px;
+  min-height: 100vh;
   width: 100%;
+  height: 100%;
+  font-family: sans-serif;
+}
+
+#root {
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 a {
@@ -18,26 +33,18 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  min-width: 320px;
-  min-height: 100vh;
-  width: 100%;
-}
-#root {
-    width: 100%;
-    margin: 0;
-    padding: 0;
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+h3 {
+  padding: 5%;
 }
 
 button {
@@ -51,9 +58,11 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -63,7 +72,6 @@ button:focus-visible {
   :root {
     color: #213547;
     background-color: #ffffff;
-    width: 100%;
   }
   a:hover {
     color: #747bff;
@@ -73,241 +81,34 @@ button:focus-visible {
   }
 }
 
-
-html{
-    height: 100%;
+main {
+  height: 100%;
+  display: flex;
 }
 
-nav{
-    color: white;
-    background-color: #0e0e0e;
-    display: flex;
-    justify-content: space-between;
-    padding: 1.5%;
-}
-body{
-    height: 100%;
-    margin: 0px;
-    font-family: sans-serif;
-}
-
-#barre_recherche{
-    display: flex;
-    justify-content: space-between;
-    width: 50%;
-    height: 60%;
-    
-
-}
-
-
-#recherche{
-    width: 100%;
-}
-#barre_recherche_input{
-  
- color: #fff;
- font-size: 0.9rem;
- background-color: transparent;
- width: 100%;
- box-sizing: border-box;
- padding-inline: 0.5em;
- padding-block: 0.7em;
- border: none;
- border-bottom: var(--border-height) solid var(--border-before-color);
-    width: 60%;
-   --border-height: 1px;
- --border-before-color: rgba(221, 221, 221, 0.39);
- --width-of-input: 10px;
- margin-right: 20px;
+article {
+  display: flex;
+  flex-direction: column;
 }
 
 .input-border {
- position: absolute;
- background: var(--border-after-color);
- width: 0%;
- height: 2px;
- bottom: 0;
- left: 0;
- transition: 0.3s;
+  position: absolute;
+  background: var(--border-after-color);
+  width: 0%;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  transition: 0.3s;
 }
-/* Hover on Input */
-#barre_recherche_input:hover {
- background: var(--input-hovered-color);
-}
-
-#barre_recherche_input:focus {
- outline: none;
-}
-/* here is code of animated border */
-#barre_recherche_input:focus ~ .input-border {
- width: 100%;
-}
-
-
-
-#logo{
-    width: 50px;
-    height: 50px;
-}
-main{
-    height: 100%;
-    display: flex;
-}
-
-
-h3{
-    padding: 5%;
-}
-
-
-article{
-    display: flex;
-    flex-direction: column;
-}
-
-.fil{
-  width: 50%;
-}
-
-.message_list{
-  width: 90%;
-}
-
-div.message_display{
-  display: grid 1, 2;
-  background-color: #282828;
-  border-radius: 15px;
-  margin:10px;
-  padding:5px;
+.login_container {
   width: 100%;
-}
-.message_header{
-  display: flex; 
-  gap: 12px;
-}
-
-.message_author{
-  font-weight: bold;
-}
-
-.message_avatar{
-  height: 50px;
-  width: 50px;
-  border: 4px solid;
-  border-color: #1a1a1a;
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-.message_content{
-  padding-left: 10%;
-}
-
-
-
-.login_container{
-  width:100%;
   display: grid;
   justify-content: center;
   margin-top: 10%;
 }
 
-form#formulaire_login{
+form#formulaire_login {
   display: grid;
   width: 10%;
-  gap:10px;
-}
-
-
-.forum_container{
-  display: flex;
-  height: 100%;
-}
-
-
-aside{
-    color: white;
-}
-
-.fil{
-  display: table-column;
-}
-
-.infos_profil{
-  display:flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width:400px;
-  height: 400px;
-  margin: 50px;
-  border-radius: 10px;
-  background-color: #282828;
-  
-}
-
-#infos_profil_image{
-  margin-top: 40px;
-  width: 150px;  
-  height: 150px;
-  border: 7px solid;
-  border-color: #1a1a1a;
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-#infos_username{
-  margin-bottom: 0;
-  font-weight: bold;
-}
-
-#role{
-  margin-bottom: 0;
-  color: #585858;
-}
-
-#role_Admin{
-  margin: 0;
-  color: rgb(201, 7, 1);
-}
-
-#role_Membre{
-  margin: 0;
-  color: rgb(1, 201, 78);
-}
-
-#message_input{
-  color: #fff;
- font-size: 0.9rem;
- background-color: transparent;
- width: 100%;
- box-sizing: border-box;
- padding-inline: 0.5em;
- padding-block: 0.7em;
- border: none;
- border-bottom: var(--border-height) solid var(--border-before-color);
-    width: 60%;
-   --border-height: 1px;
- --border-before-color: rgba(221, 221, 221, 0.39);
- --width-of-input: 10px;
- margin-right: 20px;
-}
-
-
-/* Hover on Input */
-#message_input:hover {
- background: var(--input-hovered-color);
-}
-
-#message_input:focus {
- outline: none;
-}
-/* here is code of animated border */
-#message_input:focus ~ .input-border {
- width: 100%;
-}
-
-#bouton_retour_admin{
-    padding-top: 10px;
+  gap: 10px;
 }

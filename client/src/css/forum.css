@@ -1,0 +1,127 @@
+.forum_container {
+    display: flex;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+    align-items: flex-start;
+    color: white;
+}
+
+.forum_aside {
+    width: 250px;
+    background-color: #242424;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.forum_infos_profil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.forum_profil_image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #666;
+    margin-bottom: 15px;
+}
+
+.forum_username {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.forum_role_label {
+    font-size: 0.85em;
+    color: #ccc;
+    margin-bottom: 8px;
+}
+
+.forum_role_badge {
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.forum_role_badge.admin { 
+    background-color: red; 
+    color: white; 
+}
+
+.forum_role_badge.membre { 
+    background-color: #007bff; 
+    color: white; 
+}
+
+.forum_fil {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.forum_form_message {
+    display: flex;
+    gap: 10px;
+    background-color: #242424;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #444;
+}
+
+.forum_form_message input[type="text"] {
+    flex-grow: 1;
+    background-color: #1a1a1a;
+    border: 1px solid #555;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.forum_form_message button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.forum_form_message button:hover {
+    background-color: #0056b3;
+}
+
+.forum_options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.forum_select {
+    background-color: #1a1a1a;
+    border: 1px solid #555;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.forum_btn_action {
+    background-color: #333;
+    border: 1px solid #555;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.forum_btn_action:hover {
+    background-color: #444;
+}

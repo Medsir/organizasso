@@ -19,6 +19,8 @@ function MainPage(){
     
     const [msgRecherche, setMsgRecherche] = useState([]);
 
+    const [selectedUserId, setSelectedUserId] = useState(null);
+
 
     const setRecherche = (liste) =>{
         setMsgRecherche(liste);
@@ -82,14 +84,20 @@ function MainPage(){
     }
 
     const setProfil = ()=>{
+        setSelectedUserId(null);
         setPage("Profil")
     }
 
     if(page == "message_page"){
+        const handleViewProfile = (userId) => {
+            setSelectedUserId(userId); 
+            setPage("Profil");
+        };
+
         return(
                 <>
                 <NavigationPanel connected={connected} logout={setLogout} setRecherche={setRecherche} setAdmin={setAdmin} isAdmin={profile.status == "Admin"} setProfil={setProfil}/>
-                <ForumComponent resultatRecherche={msgRecherche}/>
+                <ForumComponent resultatRecherche={msgRecherche} onUserClick={handleViewProfile}/>
                 </>
             )
     }
@@ -117,7 +125,7 @@ function MainPage(){
             <>
             <button id="bouton_retour_admin" onClick={setMainPage}>Retour à la page Principale</button>
 
-            <Profile/>
+            <Profile userId={selectedUserId}/>
             </>
         )
     }

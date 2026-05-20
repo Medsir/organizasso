@@ -186,7 +186,17 @@ function init(db){
         }
             if(req.query.idReponse) query.idReponse = req.query.idReponse;
             if(req.query.authorId) query.authorId = req.query.authorId;
-            if(req.query.date) query.date = new date(date);
+            if (req.query.dateDebut || req.query.dateFin) {
+                query.date = {};
+                
+                if (req.query.dateDebut) {
+                    query.date.$gte = new Date(req.query.dateDebut);
+                }
+                
+                if (req.query.dateFin) {
+                    query.date.$lte = new Date(req.query.dateFin + 'T23:59:59'); 
+                }
+            }
 
             const userId = req.session.userId;
             const canAccess = await users.canAccess(userId, forum);
@@ -329,6 +339,23 @@ function init(db){
             }else{
                 return res.status(404).json({ status: 404, message: "Utilisateur non trouvé ou déjà validé." });
             }
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json(internalErrorJson);
+        }
+    });
+
+    router.get('/profile/:id', async(req, res) =>{
+        if(!isAuthentificated(req)) return res.status(403).json({status:403, message:"Vous n'êtes pas authentifié."});
+        
+        try {
+            const targetId = req.params.id; // On récupère l'id envoyé dans l'URL
+            const response = await users.getProfile(targetId);
+            
+            if(!response) {
+                return res.status(404).json({status:404, message:"Utilisateur introuvable."});
+            }
+            return res.status(200).json(response);
         } catch (error) {
             console.error(error);
             return res.status(500).json(internalErrorJson);

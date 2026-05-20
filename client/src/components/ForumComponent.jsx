@@ -95,6 +95,7 @@ function ForumComponent(props){
     const sendMessage = (event)=>{
         event.preventDefault();
         const content = document.getElementById('message_input').value;
+        document.getElementById('message_input').value = "";
         const forum = document.getElementById('forum_selector').value;
         console.log(content);
         if(!content || content == ''){

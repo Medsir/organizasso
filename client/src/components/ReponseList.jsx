@@ -1,7 +1,7 @@
-import Message from './Message.jsx'
+import Reponse from './Reponse.jsx'
 
 
-function MessageList(props){
+function ReponseList(props){
     var listeMsg = props.liste;
 
 
@@ -11,7 +11,7 @@ function MessageList(props){
         <>
         <div className="message_list">
             {listeMsg.map((m) => {
-                return <Message 
+                return <Reponse 
                     idMessage={m._id}
                     authorId={m.authorId} 
                     author={m.userName} 
@@ -32,4 +32,4 @@ function MessageList(props){
 
 }
 
-export default MessageList;
+export default ReponseList;

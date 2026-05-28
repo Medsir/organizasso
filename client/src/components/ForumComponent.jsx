@@ -20,7 +20,7 @@ function ForumComponent(props){
     const [profile, setProfile] = useState({});
     useEffect(() => {
         if(!charge){
-            axios.get("http://localhost:3000/messages", {withCredentials:true}).then(
+            axios.get("http://localhost:3000/messages?idReponse=null", {withCredentials:true}).then(
                 (res) => {
                     console.log("reponse OK")
                     setCharge(true);
@@ -36,7 +36,7 @@ function ForumComponent(props){
         try{
             setErreur("Chargement...")
             const forum = document.getElementById('forum_selector').value
-            await axios.get("http://localhost:3000/messages?forum="+forum+"&idReponse=null", {withCredentials:true}).then(
+            await axios.get("http://localhost:3000/messages?forum="+forum+"&idReponse='null'", {withCredentials:true}).then(
                     (res) => {
                         setMessages(res.data);
                         setErreur('')
@@ -102,7 +102,7 @@ function ForumComponent(props){
         if(!content || content == ''){
             return -1;
         }
-        axios.put("http://localhost:3000/messages", {content:content,forum:forum, idReponse:'null'}, {withCredentials:true}).then(
+        axios.put("http://localhost:3000/messages", {content:content,forum:forum, idReponse:"null"}, {withCredentials:true}).then(
             (res)=>{
                 updateMessagesHandler();
             }

@@ -29,6 +29,26 @@ class Messages {
         const messages = await this.db.collection("messages").find({_id:id});
         return messages.toArray();
     }
+
+    async deleteMessage(messageId, userId, isAdmin) {
+        try {
+            const id = new ObjectId(messageId);
+            const message = await this.db.collection("messages").findOne({ _id: id });
+            
+            if (!message) return false; 
+
+            if (message.authorId === userId || isAdmin) {
+                const res = await this.db.collection("messages").deleteOne({ _id: id });
+                await this.db.collection("messages").deleteMany({ idReponse: messageId });
+                return res.deletedCount === 1;
+            }
+            
+            return false; 
+        } catch (error) {
+            console.error("Erreur lors de la suppression du message :", error);
+            return false;
+        }
+    }
 }
 
 exports.default = Messages;

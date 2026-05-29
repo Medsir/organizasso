@@ -125,7 +125,7 @@ function MainPage(){
             <>
             <button id="bouton_retour_admin" onClick={setMainPage}>Retour à la page Principale</button>
 
-            <Profile userId={selectedUserId}/>
+            <Profile userId={selectedUserId} isAdmin={profile.status === "Admin"}/>
             </>
         )
     }

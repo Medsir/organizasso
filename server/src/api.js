@@ -362,6 +362,31 @@ function init(db){
         }
     });
 
+    // Service pour supprimer un message
+    router.delete('/messages/:id', async (req, res) => {
+        try {
+            if (!isAuthentificated(req)) {
+                return res.status(403).json({ status: 403, message: "Vous n'êtes pas authentifié." });
+            }
+            
+            const messageId = req.params.id;
+            const userId = req.session.userId;
+            
+            const adminCheck = await users.isAdmin(userId);
+
+            const success = await messages.deleteMessage(messageId, userId, adminCheck);
+
+            if (success) {
+                return res.status(200).json({ status: 200, message: "Le message a bien été supprimé." });
+            } else {
+                return res.status(403).json({ status: 403, message: "Action refusée ou message introuvable." });
+            }
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json(internalErrorJson);
+        }
+    });
+
 
     return router;
 

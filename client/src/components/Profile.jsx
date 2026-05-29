@@ -25,6 +25,24 @@ function Profile(props){
             });
     };
 
+    const deleteMessageHandler = async (messageId) => {
+        if (window.confirm("Êtes-vous sûr de vouloir supprimer ce message ?")) {
+            try {
+                await axios.delete(`http://localhost:3000/messages/${messageId}`, { withCredentials: true });
+                
+                setMessages(publicMessages.filter(msg => 
+                    msg._id !== messageId && msg.idReponse !== messageId
+                ));
+                setMessage("Message supprimé avec succès.");
+                
+                setTimeout(() => setMessage(''), 3000); 
+            } catch (err) {
+                console.error("Erreur lors de la suppression :", err);
+                setMessage("Erreur lors de la suppression du message.");
+            }
+        }
+    };
+
     useEffect(() => {
         setProfile({});
         loadUserInfo();
@@ -32,7 +50,10 @@ function Profile(props){
 
      useEffect(() => {
         if (profile && profile.publicMessages) {
-            setMessages(profile.publicMessages);
+            const messagesTries = [...profile.publicMessages].sort((a, b) => {
+                return new Date(b.date) - new Date(a.date);
+            });
+            setMessages(messagesTries );
         }
     }, [profile]);
 
@@ -67,7 +88,9 @@ function Profile(props){
                         </h3>
                         
                         {publicMessages.length > 0 ? (
-                            <MessageList liste={publicMessages}/>
+                            <MessageList liste={publicMessages}
+                                         onDelete={deleteMessageHandler} 
+                                         showDelete={!targetUserId || props.isAdmin}/>
                         ) : (
                             <p className="profile_no_messages">
                                 Vous n'avez publié aucun message dans le fil public.

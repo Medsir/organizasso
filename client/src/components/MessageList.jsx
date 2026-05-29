@@ -21,6 +21,8 @@ function MessageList(props){
                     onUserClick={props.onUserClick} 
                     idReponse={m.idReponse}
                     forum={m.forum}
+                    onDelete={props.onDelete}
+                    showDelete={props.showDelete}
                 />
             })}
         </div>

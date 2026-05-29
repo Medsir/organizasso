@@ -102,3 +102,23 @@
     border-radius: 4px;
     cursor: pointer;
 }
+
+.btn_delete {
+    background-color: transparent;
+    border: 1px solid #b91c1c; 
+    color: #b91c1c; 
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: background-color 0.2s, color 0.2s; 
+}
+
+.btn_delete:hover {
+    background-color: #b91c1c; 
+    color: white;
+}

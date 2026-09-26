@@ -1,6 +1,6 @@
 # Organiz'asso
 
-*Projet d'implémentation d'un site web dans le cadre d'un projet universitaire*
+*Projet d'implémentation d'un site web (api REST) dans le cadre d'un projet universitaire*
 
 ## Concept
 

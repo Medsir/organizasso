@@ -1,6 +1,6 @@
 # Organiz'asso
 
-*Projet d'implémentation d'un site web dans le cadre de l'UE de "Technologie du Web" à Sorbonne Université*
+*Projet d'implémentation d'un site web dans le cadre d'un projet universitaire*
 
 ## Concept
 
